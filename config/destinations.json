@@ -1,0 +1,17 @@
+{
+	"redshift": {
+		"type": "database",
+		"required_operators": [
+			"slice_operator",
+			"compress_operator",
+			"transport_cloud_opp"
+		]
+	},
+	"s3": {
+		"type": "database",
+		"required_operators": [
+			"partition_operator",
+			"compress_operator"
+		]
+	}
+}

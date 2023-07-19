@@ -1,0 +1,90 @@
+{
+	"athena_test_dag": {
+		"source":"athena",
+		"destination":{
+			"redshift":{
+						"schema":"testing_schema",
+						"table":"infrastructure_test",
+						"compression":"gzip"
+					}
+		},
+		"query": "select impression_date, count(*) as imps from looker.mm_prod_platform_impressions_internal_data where impression_date>='2023-03-20' group by 1",
+		"table_primary_key": "mm_date"
+	},
+	"salesforce_opportunity_dag": {
+		"source":"salesforce",
+		"destination":{
+			"redshift":{
+						"schema":"bi_salesforce_raw",
+						"table":"sf_opportunities",
+						"compression":"gzip"
+					}
+		},
+		
+		"object": "Opportunity",
+		"table_primary_key": "id"
+	},
+	"salesforce_account_dag": {
+		"source":"salesforce",
+		"destination":{
+			"redshift":{
+						"schema":"bi_salesforce_raw",
+						"table":"sf_accounts",
+						"compression":"gzip"
+					}
+		},
+		
+		"object": "Account",
+		"table_primary_key": "id"
+	},
+	"salesforce_budget_forecast_dag": {
+		"source":"salesforce",
+		"destination":{
+			"redshift":{
+						"schema":"bi_salesforce_raw",
+						"table":"sf_budget_forecasts",
+						"compression":"gzip" 
+					}
+		},
+		"object": "Budget_Forecast__c",
+		"table_primary_key": "id"
+	},
+	"salesforce_user_dag": {
+		"source":"salesforce",
+		"destination":{
+			"redshift":{
+						"schema":"bi_salesforce_raw",
+						"table":"sf_users",
+						"compression":"gzip"
+					}, 
+			"s3": 	{
+						"destination_s3": "s3://mediamath-business-intelligence/airflow_dataset_test_sf_users",
+						"destination_partition_type": "data", 
+						"destination_s3_partition_value": "service_pod__c,region_of_service__c",
+						"destination_s3_partition_key": "pod,region",
+						"compression":"gzip" 
+					}
+		},
+		"object": "User",
+		"table_primary_key": "id" 
+	},
+	"t1_test_dag": {
+		"source":"t1",
+		"destination":{
+			"redshift":{
+						"schema":"t1_testing_schema",
+						"table":"infrastructure_test"
+					},
+			"s3": 	{
+						"destination_s3": "s3://mediamath-business-intelligence/airflow_dataset_test_t1",
+						"destination_partition_type": "data", 
+						"destination_s3_partition_value": "exchange_Id",
+						"destination_s3_partition_key": "exch_id",
+						"compression":"gzip" 
+					}
+		},
+		"source_endpoint" : "https://api.mediamath.com/reporting/v1/std/performance",
+        "query" : "{\"dimensions\": \"exchange_id,campaign_id,strategy_id,creative_id,deal_id\",\"metrics\": \"impressions,total_spend,billed_spend\",\"filter\":\"organization_id=100048\",\"time_rollup\":\"by_day\", \"time_window\":\"last_7_days\"}",
+		"table_primary_key": "start_date,exchange_id,campaign_id,strategy_id,creative_id,deal_id"
+	}
+}

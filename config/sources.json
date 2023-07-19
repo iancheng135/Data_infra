@@ -1,0 +1,22 @@
+{
+	"athena": {
+		"type":"sql",
+		"required_operators":["query_operator", "transport_operator"]
+	},
+	"salesforce": {
+		"type":"object",
+		"required_operators":["query_operator"]
+	},
+	"jira": {
+		"type":"sql",
+		"required_operators":["query_operator"]
+	},
+	"s3": {
+		"type":"object",
+		"required_operators":["query_operator"]
+	},
+	"t1": {
+		"type":"sql",
+		"required_operators":["query_operator"]
+	}
+}

@@ -1,0 +1,4 @@
+# directories to be excluded 
+/logs
+airflow.cfg
+/dags/*.py

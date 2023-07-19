@@ -1,0 +1,3 @@
+[submodule "dags/business-intelligence-infrastructure-python"]
+    path = "dags/business-intelligence-infrastructure-python"
+    url = git@github.com:MediaMath/business-intelligence-infrastructure-python.git
